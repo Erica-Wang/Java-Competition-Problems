@@ -3,79 +3,66 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classz31;
+package Classz32;
 import java.util.*;
 import java.io.*;
 /**
  *
  * @author moyangwang
  */
-public class jaydenStudiesTrees {
-    public static int findMax(int [] arr){
-        int max = arr[1];
-        int pos = 1;
-        for(int i = 2; i<arr.length;i++){
-            if(arr[i]!=1000000&&arr[i]>max){
+public class cheesecakeDistribution {
+    public static boolean equal(long [] arr){
+        for(int i = 0; i<arr.length-1; i++){
+            if(arr[i]!=arr[i+1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static int findMax(long [] arr){
+        long max = arr[0];
+        int pos = 0;
+        for(int i = 1; i<arr.length;i++){
+            if(arr[i]>max){
                 max = arr[i];
                 pos = i;
             }
         }
         return pos;
     }
-    public static void print(int [] arr){
-        for(int i = 0; i<arr.length;i++){
-            System.out.print(arr[i]+" ");
+    public static int findMin(long [] arr){
+        long max = arr[0];
+        int pos = 0;
+        for(int i = 1; i<arr.length;i++){
+            if(arr[i]<max){
+                max = arr[i];
+                pos = i;
+            }
         }
-        System.out.println();
+        return pos;
     }
     public static void main(String[]args){
         InputReader input = new InputReader(System.in);
-        OutputWriter out = new OutputWriter(System.out);
         int n = input.readInt();
-        ArrayList<Integer> [] in = new ArrayList[n+1];
-        for(int i = 1; i<=n; i++){
-            in[i]=new ArrayList();
+        long [] cake = new long [n];
+        long sum = 0;
+        for(int i = 0; i<n; i++){
+            cake[i]=input.readInt();
+            sum+=cake[i];
         }
-        for(int i = 1; i<n; i++){
-            int a = input.readInt();
-            int b = input.readInt();
-            in[a].add(b);
-            in[b].add(a);
-        }
-        
-        int [] dis = new int [n+1];
-        int curLoc = 1;
-        for(int num = 0; num<2; num++){
-            for(int i = 1; i<=n; i++){
-                dis[i]=-1;
+        if(sum%(long)n!=0)
+            System.out.println("Impossible");
+        else{
+            int count = 0;
+            while(!equal(cake)){
+                cake[findMax(cake)]--;
+                cake[findMin(cake)]++;
+                count++;
             }
-            dis[curLoc]=0;
-            Queue<Integer> loc = new LinkedList();
-            loc.add(curLoc);
-            while(!loc.isEmpty()){
-                int cur = loc.poll();
-                for(int i = 0; i<in[cur].size(); i++){
-                    int pos = in[cur].get(i);
-                    if(dis[pos]==-1){
-                        dis[pos]=dis[cur]+1;
-                        loc.add(pos);
-                    }
-                }
-            }
-            curLoc = findMax(dis);
+            System.out.println(count);
         }
-        System.out.println(dis[curLoc]);
     }
 }
-class Access {
-    public static void main (String [] args){
-        InputReader input = new InputReader(System.in);
-        OutputWriter out = new OutputWriter(System.out);
-        int t = input.readInt();
-        out.println(t);
-    }
-}
-
 class InputReader {
     private InputStream stream;
     private byte[] buf = new byte[1024];
@@ -166,4 +153,3 @@ class OutputWriter {
         writer.flush();
     }
 }
-
